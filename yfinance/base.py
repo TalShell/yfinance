@@ -73,7 +73,7 @@ class TickerBase():
             "yearly": utils.empty_df(),
             "quarterly": utils.empty_df()}
 
-    def history(self, period="1mo", interval="1d",
+    def history(self, period="6mo", interval="1d",
                 start=None, end=None, prepost=False, actions=True,
                 auto_adjust=True, back_adjust=False,
                 proxy=None, rounding=False, tz=None, **kwargs):
@@ -337,7 +337,9 @@ class TickerBase():
             if isinstance(data.get(item), dict):
                 self._info.update(data[item])
 
-        self._info['regularMarketPrice'] = self._info['regularMarketOpen']
+        if 'regularMarketOpen' in self._info:
+            self._info['regularMarketPrice'] = self._info['regularMarketOpen']
+
         self._info['logo_url'] = ""
         try:
             domain = self._info['website'].split(
